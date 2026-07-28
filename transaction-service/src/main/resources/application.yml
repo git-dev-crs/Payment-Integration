@@ -28,3 +28,8 @@ spring:
   cloud:
     compatibility-verifier:
       enabled: false
+
+services:
+  wallet:
+    url: ${WALLET_SERVICE_URL:http://localhost:8088/api/v1/wallets}
+

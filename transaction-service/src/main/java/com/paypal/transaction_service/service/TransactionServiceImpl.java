@@ -12,11 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import org.springframework.beans.factory.annotation.Value;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
+
+    @Value("${services.wallet.url:http://localhost:8088/api/v1/wallets}")
+    private String walletServiceUrl;
 
     private final TransactionRepository repository;
     private final ObjectMapper objectMapper;
@@ -49,7 +53,6 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction savedTransaction = repository.save(request);
         System.out.println("📥 Transaction PENDING saved: " + savedTransaction);
 
-        String walletServiceUrl = "http://localhost:8088/api/v1/wallets"; // wallet service base URL
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 

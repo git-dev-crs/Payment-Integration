@@ -53,12 +53,13 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
             System.out.println("   email=" + claims.getSubject());
             System.out.println("   role=" + claims.get("role"));
 
-            // Mutate request with claims
+            // Mutate request with claims & internal gateway secret
             ServerWebExchange mutatedExchange = exchange.mutate()
                     .request(exchange.getRequest().mutate()
                             .header("X-User-Email", claims.getSubject())
                             .header("X-User-Id", String.valueOf(claims.get("userId")))
                             .header("X-User-Role", (String) claims.get("role"))
+                            .header("X-Gateway-Secret", "InternalGatewaySecretKey2026")
                             .build())
                     .build();
 
