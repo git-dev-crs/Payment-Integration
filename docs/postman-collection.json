@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "payment-integration-collection",
+		"name": "Payment Integration Microservices API",
+		"description": "Postman API Collection for testing PayPal-clone Spring Boot Microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. User Signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Mohit\",\n  \"email\": \"mohit@example.com\",\n  \"password\": \"password123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/signup",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["auth", "signup"]
+				}
+			}
+		},
+		{
+			"name": "2. User Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"mohit@example.com\",\n  \"password\": \"password123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/login",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["auth", "login"]
+				}
+			}
+		},
+		{
+			"name": "3. Credit Wallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": 1,\n  \"currency\": \"INR\",\n  \"amount\": 10000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/api/v1/wallets/credit",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8088",
+					"path": ["api", "v1", "wallets", "credit"]
+				}
+			}
+		},
+		{
+			"name": "4. Execute Transaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"senderId\": 1,\n  \"receiverId\": 2,\n  \"amount\": 500.00,\n  \"description\": \"Payment transfer test\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/transactions",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "transactions"]
+				}
+			}
+		}
+	]
+}
