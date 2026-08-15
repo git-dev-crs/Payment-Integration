@@ -10,8 +10,7 @@ public class TransferRequest {
     public TransferRequest() {
     }
 
-    public TransferRequest(Long senderId, Long receiverId, Double amount,
-                           String senderNameSnapshot, String receiverNameSnapshot) {
+    public TransferRequest(Long senderId, Long receiverId, Double amount) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.amount = amount;
@@ -44,3 +43,4 @@ public class TransferRequest {
     }
 
 }
+

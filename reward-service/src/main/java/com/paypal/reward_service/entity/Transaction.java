@@ -29,9 +29,7 @@ public class Transaction {
 
     public Transaction() {}
 
-    public Transaction(Long senderId, Long receiverId,
-                       String senderNameSnapshot, String receiverNameSnapshot,
-                       Double amount, LocalDateTime timestamp, String status) {
+    public Transaction(Long senderId, Long receiverId, Double amount, LocalDateTime timestamp, String status) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.amount = amount;
@@ -105,4 +103,5 @@ public class Transaction {
                 '}';
     }
 }
+
 
