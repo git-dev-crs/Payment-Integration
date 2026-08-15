@@ -16,11 +16,12 @@ spring:
       enabled: true
 
   jwt:
-    secret: my-super-secret-key-that-you-never-share
+    secret: ${JWT_SECRET:paypal-clone-super-secret-key-for-jwt-signing-minimum-64-chars-2026}
 
 
   cloud:
     compatibility-verifier:
       enabled: false
+
 
 

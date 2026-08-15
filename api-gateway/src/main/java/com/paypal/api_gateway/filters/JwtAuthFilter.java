@@ -2,6 +2,7 @@ package com.paypal.api_gateway.filters;
 
 import com.paypal.api_gateway.util.JwtUtil;
 import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -13,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-
 @Component
 public class JwtAuthFilter implements GlobalFilter, Ordered {
 
@@ -22,8 +22,11 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
             "/auth/login"
     );
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain){
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getPath().value();
         String normalizedPath = path.replaceAll("/+$", "");
 
@@ -39,16 +42,16 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
         System.out.println("Authorization header: " + authHeader);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("❌ Missing or invalid Authorization header");
+            System.out.println("? Missing or invalid Authorization header");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
         try {
             String token = authHeader.substring(7);
-            Claims claims = JwtUtil.validateToken(token);
+            Claims claims = jwtUtil.validateToken(token);
 
-            System.out.println("✅ Token validated. Claims:");
+            System.out.println("? Token validated. Claims:");
             System.out.println("   userId=" + claims.get("userId"));
             System.out.println("   email=" + claims.getSubject());
             System.out.println("   role=" + claims.get("role"));
@@ -66,7 +69,7 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
             return chain.filter(mutatedExchange);
 
         } catch (Exception e) {
-            System.out.println("❌ JWT validation failed: " + e.getMessage());
+            System.out.println("? JWT validation failed: " + e.getMessage());
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
