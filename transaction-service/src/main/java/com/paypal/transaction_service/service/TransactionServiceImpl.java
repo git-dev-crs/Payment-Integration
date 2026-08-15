@@ -205,7 +205,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction getTransactionById(Long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("Transaction not found with id: " + id));
     }
 
     public List<Transaction> getTransactionsByUser(Long userId) {
@@ -214,3 +214,4 @@ public class TransactionServiceImpl implements TransactionService {
 
 
 }
+
